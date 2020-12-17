@@ -1,0 +1,23 @@
+{
+  "name": "robot-project",
+  "version": "1.0.0",
+  "description": "Just a project will be made with WebGL.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "lite-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nijatmursali/robot-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nijatmursali/robot-project/issues"
+  },
+  "homepage": "https://github.com/nijatmursali/robot-project#readme",
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}
