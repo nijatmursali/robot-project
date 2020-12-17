@@ -29,22 +29,37 @@
     precision mediump float;
     
     out vec4 fColor;
-    
+    uniform bool handFlag;
     void main()
     {
-        fColor = vec4(1.0, 0.0, 0.0, 1.0);
-    
+        if(handFlag) {
+            fColor = vec4(0.0, 0.0, 0.0, 1.0);
+        }else {
+        fColor = vec4(0.0, 0.0, 1.0, 1.0);
+    }
     }
 </script>
 
 <body>
     <script type="text/javascript" src="js/Common/InitShaders.js"></script>
     <script type="text/javascript" src="js/Common/MVnew.js"></script>
+    <script src="js/vars.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-4 text-center"><button class="btn button primary-button text-uppercase"
+                    onClick="window.location.reload();">RESET</button></div>
+            <div class="col-4 text-center"><button id="increaseAlpha"
+                    class="btn button primary-button text-uppercase">Increase Alpha</button></div>
+            <div class="col-4"><button id="decreaseAlpha" class="btn button primary-button text-uppercase">Decrease
+                    Alpha</button></div>
+        </div>
+    </div>
 
     <body>
         <div class="centered">
-            <canvas id="gl-canvas" width="512" height=" 512">
+            <canvas id="gl-canvas" width="1024" height="1024">
                 Oops ... your browser doesn't support the HTML5 canvas element
             </canvas>
         </div>
