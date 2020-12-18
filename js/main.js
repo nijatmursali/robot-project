@@ -129,6 +129,7 @@ function clear() {
 }
 
 var render = function () {
+  moveinXaxis += 0.1;
   for (i = 0; i < numNodes; i++) initNodes(i);
   eye = vec3(
     radius * Math.sin(alpha),

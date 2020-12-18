@@ -21,6 +21,9 @@
     uniform vec4 uAmbientProduct, uDiffuseProduct, uSpecularProduct;
     uniform vec4 uLightPosition;
     uniform float uShininess;
+
+    in vec2 aTexCoord;
+    out vec2 vTexCoord;
     void main()
     {
         vec3 pos = -(modelViewMatrix * aPosition).xyz;    
@@ -47,6 +50,7 @@
         gl_Position = projectionMatrix * modelViewMatrix * aPosition;
         vColor = ambient + diffuse +specular;
         vColor.a = 1.0;
+        vTexCoord = aTexCoord;
     }
     </script>
 
@@ -55,13 +59,23 @@
     
     precision mediump float;
     in vec4 vColor;
+    in vec2 vTexCoord;
     out vec4 fColor;
-    uniform bool handFlag;
-    void main()
-    {
+    uniform bool handFlag, headFlag, bodyFlag;
+
+    //samplers
+    uniform sampler2D uTextureMapBody;
+    uniform sampler2D uTextureMapHead;
+    void main(){
         if(handFlag) {
             fColor = vec4(0.0, 0.0, 0.0, 1.0);
-        }else {
+        }else if(headFlag) {
+            fColor = texture(uTextureMapHead, vTexCoord);
+            fColor.a = 1.0;
+        }else if(bodyFlag) {
+            fColor = texture(uTextureMapBody, vTexCoord);
+            fColor.a = 1.0;
+    }else {
         //fColor = vec4(0.0, 0.0, 1.0, 1.0) *vColor;
         fColor = vColor;
     }
@@ -95,8 +109,9 @@
                     Radius</button></div>
         </div>
     </div>
-    <!-- <img id="textures" src="./textures/bear_tex.jpg" hidden>
-    <img id="headTexture" src="./textures/head.jpeg" hidden> -->
+    <img id="texture" src="https://i.pinimg.com/originals/d4/02/d6/d402d650fd5aa58be87b6de5c87714b8.jpg" hidden>
+    <img id="headTexture"
+        src="https://img.freepik.com/free-vector/basic-texture-background_53876-94158.jpg?size=626&ext=jpg" hidden>
 
     <body>
         <div class="centered">

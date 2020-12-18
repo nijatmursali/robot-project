@@ -55,11 +55,8 @@ var leftLowerLegId = 7;
 var rightUpperLegId = 8;
 var rightLowerLegId = 9;
 
-/***** robot *****/
-var robotId = 11;
-
 /***** GROUND *****/
-var baseId = 13;
+var baseId = 11;
 
 /***** SIZE OF ROBOT ELEMENTS *****/
 //add sizing element?
@@ -110,7 +107,7 @@ var cameraSize = 15;
 var moveinXaxis = -cameraSize;
 var moveinYaxis = 0.0;
 //theta used for checking the rotation angle for object
-var theta = [0, 0, 0, 0, 0, 0, 180, 0, 180, 0, 0];
+var theta = [0, 0, 0, 0, 0, 0, 180, 0, 180, 0, 0, 0];
 
 /**
  *

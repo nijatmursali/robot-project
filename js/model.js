@@ -3,8 +3,9 @@ function initNodes(Id) {
 
   switch (Id) {
     case torsoId:
+      m = translate(moveinXaxis, 5 + moveinYaxis, 0);
       m = rotate(theta[torsoId], 0, 1, 0);
-      figure[torsoId] = createNode(m, torso, null, headId);
+      figure[torsoId] = createNode(m, torso, baseId, headId);
       break;
 
     case headId:
@@ -84,6 +85,12 @@ function initNodes(Id) {
       m = mult(m, rotate(theta[rightLowerLegId], 1, 0, 0));
       figure[rightLowerLegId] = createNode(m, rightLowerLeg, null, null);
       break;
+
+    case baseId:
+      m = translate(1, -6.5, 2);
+      m = mult(m, rotate(theta[baseId], 1, 0, 0));
+      figure[baseId] = createNode(m, baseGround, null, null);
+      break;
   }
 }
 
@@ -95,6 +102,16 @@ function traverse(Id) {
   if (figure[Id].child != null) traverse(figure[Id].child);
   modelViewMatrix = stack.pop();
   if (figure[Id].sibling != null) traverse(figure[Id].sibling);
+}
+
+function baseGround() {
+  instanceMatrix = mult(modelViewMatrix, translate(0.0, 4.8, -1.8)); // change here
+  instanceMatrix = mult(
+    instanceMatrix,
+    scale4(groundWidth + 25, 0.5, groundWidth)
+  );
+  gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
+  for (var i = 0; i < 6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4 * i, 4);
 }
 
 function torso() {
@@ -123,7 +140,7 @@ function head() {
 function leftUpperArm() {
   instanceMatrix = mult(
     modelViewMatrix,
-    translate(0.0, 0.5 * upperArmHeight, 0.0)
+    translate(0.7, 0.5 * upperArmHeight, 0)
   );
   instanceMatrix = mult(
     instanceMatrix,
@@ -136,7 +153,7 @@ function leftUpperArm() {
 function leftLowerArm() {
   instanceMatrix = mult(
     modelViewMatrix,
-    translate(0.0, 0.5 * lowerArmHeight, 0.0)
+    translate(0.7, 0.5 * lowerArmHeight, 0.0)
   );
   instanceMatrix = mult(
     instanceMatrix,
@@ -149,7 +166,7 @@ function leftLowerArm() {
 function rightUpperArm() {
   instanceMatrix = mult(
     modelViewMatrix,
-    translate(0.0, 0.5 * upperArmHeight, 0.0)
+    translate(-0.7, 0.5 * upperArmHeight, 0.0)
   );
   instanceMatrix = mult(
     instanceMatrix,
@@ -162,7 +179,7 @@ function rightUpperArm() {
 function rightLowerArm() {
   instanceMatrix = mult(
     modelViewMatrix,
-    translate(0.0, 0.5 * lowerArmHeight, 0.0)
+    translate(-0.7, 0.5 * lowerArmHeight, 0.0)
   );
   instanceMatrix = mult(
     instanceMatrix,
@@ -175,7 +192,7 @@ function rightLowerArm() {
 function leftUpperLeg() {
   instanceMatrix = mult(
     modelViewMatrix,
-    translate(0.0, 0.5 * upperLegHeight, 0.0)
+    translate(0.7, 0.5 * upperLegHeight, 0.0)
   );
   instanceMatrix = mult(
     instanceMatrix,
@@ -188,7 +205,7 @@ function leftUpperLeg() {
 function leftLowerLeg() {
   instanceMatrix = mult(
     modelViewMatrix,
-    translate(0.0, 0.5 * lowerLegHeight, 0.0)
+    translate(0.7, 0.5 * lowerLegHeight, 0.0)
   );
   instanceMatrix = mult(
     instanceMatrix,
@@ -201,7 +218,7 @@ function leftLowerLeg() {
 function rightUpperLeg() {
   instanceMatrix = mult(
     modelViewMatrix,
-    translate(0.0, 0.5 * upperLegHeight, 0.0)
+    translate(-0.7, 0.5 * upperLegHeight, 0.0)
   );
   instanceMatrix = mult(
     instanceMatrix,
@@ -214,7 +231,7 @@ function rightUpperLeg() {
 function rightLowerLeg() {
   instanceMatrix = mult(
     modelViewMatrix,
-    translate(0.0, 0.5 * lowerLegHeight, 0.0)
+    translate(-0.7, 0.5 * lowerLegHeight, 0.0)
   );
   instanceMatrix = mult(
     instanceMatrix,
