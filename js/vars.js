@@ -55,17 +55,17 @@ var leftLowerLegId = 7;
 var rightUpperLegId = 8;
 var rightLowerLegId = 9;
 
-/***** TAIL *****/
-var tailId = 11;
+/***** robot *****/
+var robotId = 11;
 
 /***** GROUND *****/
 var baseId = 13;
 
 /***** SIZE OF ROBOT ELEMENTS *****/
 //add sizing element?
-/***** SIZE OF TAIL *****/
-var tailWidth = 0.25;
-var tailHeight = 0.4;
+/***** SIZE OF robot *****/
+var robotWidth = 0.25;
+var robotHeight = 0.4;
 
 /***** SIZE OF TORSO *****/
 var torsoHeight = 3.5;
@@ -86,10 +86,6 @@ var headHeight = 0.7;
 var headWidth = 0.5;
 var upperHeadHeight = 1.1;
 var upperHeadWidth = 0.7;
-var ear1Height = 1.1;
-var ear1Width = 0.7;
-var ear2Height = 1.1;
-var ear2Width = 0.7;
 
 /***** SIZE OF GROUND *****/
 var groundWidth = 10;
@@ -114,28 +110,7 @@ var cameraSize = 15;
 var moveinXaxis = -cameraSize;
 var moveinYaxis = 0.0;
 //theta used for checking the rotation angle for object
-var theta = [
-  90,
-  90,
-  90,
-  0,
-  90,
-  0,
-  90, // leg which one lol
-  0,
-  90,
-  0,
-  0,
-  180,
-  90,
-  0,
-  0,
-  0,
-  0,
-  90,
-  90,
-  90,
-];
+var theta = [0, 0, 0, 0, 0, 0, 180, 0, 180, 0, 0];
 
 /**
  *
