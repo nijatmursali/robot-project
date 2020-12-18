@@ -70,10 +70,10 @@
         if(handFlag) {
             fColor = vec4(0.0, 0.0, 0.0, 1.0);
         }else if(headFlag) {
-            fColor = texture(uTextureMapHead, vTexCoord);
+            fColor = texture(uTextureMapHead, vTexCoord) *vColor ;
             fColor.a = 1.0;
         }else if(bodyFlag) {
-            fColor = texture(uTextureMapBody, vTexCoord);
+            fColor = texture(uTextureMapBody, vTexCoord) *vColor;
             fColor.a = 1.0;
     }else {
         //fColor = vec4(0.0, 0.0, 1.0, 1.0) *vColor;
