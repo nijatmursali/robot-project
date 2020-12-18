@@ -115,6 +115,10 @@ function baseGround() {
 }
 
 function torso() {
+  var image = document.getElementById("texture");
+  configureTexture(image);
+  gl.uniform1i(gl.getUniformLocation(program, "bodyFlag"), true);
+  gl.uniform1i(gl.getUniformLocation(program, "headFlag"), false);
   instanceMatrix = mult(
     modelViewMatrix,
     translate(0.0, 0.5 * torsoHeight, 0.0)
@@ -128,6 +132,10 @@ function torso() {
 }
 
 function head() {
+  var image = document.getElementById("headTexture");
+  configureTexture(image);
+  gl.uniform1i(gl.getUniformLocation(program, "bodyFlag"), false);
+  gl.uniform1i(gl.getUniformLocation(program, "headFlag"), true);
   instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * headHeight, 0.0));
   instanceMatrix = mult(
     instanceMatrix,

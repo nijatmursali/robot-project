@@ -103,7 +103,7 @@ var leftUpperArmFlag = false;
 
 var rightLowerArmFlag = false;
 var rightUpperArmFlag = false;
-var cameraSize = 15;
+var cameraSize = 10;
 var moveinXaxis = -cameraSize;
 var moveinYaxis = 0.0;
 //theta used for checking the rotation angle for object
@@ -198,4 +198,32 @@ function colorCube() {
   quad(6, 5, 1, 2);
   quad(4, 5, 6, 7);
   quad(5, 4, 0, 1);
+}
+
+function configureTexture(image) {
+  textureBody = gl.createTexture(gl.TEXTURE1);
+  gl.bindTexture(gl.TEXTURE_2D, textureBody);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
+  gl.generateMipmap(gl.TEXTURE_2D);
+  gl.texParameteri(
+    gl.TEXTURE_2D,
+    gl.TEXTURE_MIN_FILTER,
+    gl.NEAREST_MIPMAP_LINEAR
+  );
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+  gl.uniform1i(gl.getUniformLocation(program, "uTextureMapBody"), 0);
+
+  textureHead = gl.createTexture(gl.TEXTURE2);
+  gl.bindTexture(gl.TEXTURE_2D, textureBody);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
+  gl.generateMipmap(gl.TEXTURE_2D);
+  gl.texParameteri(
+    gl.TEXTURE_2D,
+    gl.TEXTURE_MIN_FILTER,
+    gl.NEAREST_MIPMAP_LINEAR
+  );
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+  gl.uniform1i(gl.getUniformLocation(program, "uTextureMapHead"), 0);
 }
