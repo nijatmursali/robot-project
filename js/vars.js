@@ -13,7 +13,7 @@ var modelViewMatrixLoc;
 var eye;
 const at = vec3(0.0, 0.0, 0.0);
 const up = vec3(0.0, 1.0, 0.0);
-var alpha = -7.09 + 0.1 * 24;
+var alpha = -7.09 + 0.9;
 var beta = 0.2;
 var radius = 1.0;
 /******** END OF VIEWS ********/
@@ -126,16 +126,33 @@ var theta = [
   90,
   0,
   0,
-  160,
+  180,
   90,
   0,
   0,
-  15,
-  345,
+  0,
+  0,
   90,
   90,
   90,
 ];
+
+/**
+ *
+ * LIGHTS
+ *
+ */
+var positionsArray = [];
+var normalsArray = [];
+var lightPosition = vec4(1.0, 1.0, 1.0, 0.0);
+var lightAmbient = vec4(0.2, 0.2, 0.2, 1.0);
+var lightDiffuse = vec4(1.0, 1.0, 1.0, 1.0);
+var lightSpecular = vec4(1.0, 1.0, 1.0, 1.0);
+
+var materialAmbient = vec4(1.0, 0.0, 1.0, 1.0);
+var materialDiffuse = vec4(1.0, 0.8, 0.0, 1.0);
+var materialSpecular = vec4(1.0, 0.8, 0.0, 1.0);
+var materialShininess = 100.0;
 
 var numVertices = 24;
 
@@ -183,17 +200,26 @@ function traverse(Id) {
 }
 
 function quad(a, b, c, d) {
+  var t1 = subtract(vertices[b], vertices[a]);
+  var t2 = subtract(vertices[c], vertices[b]);
+  var normal = cross(t1, t2);
+  normal = vec3(normal);
+
   pointsArray.push(vertices[a]);
+  normalsArray.push(normal);
   texCoordsArray.push(texCoord[0]);
   pointsArray.push(vertices[b]);
+  normalsArray.push(normal);
   texCoordsArray.push(texCoord[1]);
   pointsArray.push(vertices[c]);
+  normalsArray.push(normal);
   texCoordsArray.push(texCoord[2]);
   pointsArray.push(vertices[d]);
+  normalsArray.push(normal);
   texCoordsArray.push(texCoord[3]);
 }
 
-function cube() {
+function colorCube() {
   quad(1, 0, 3, 2);
   quad(2, 3, 7, 6);
   quad(3, 0, 4, 7);
@@ -201,23 +227,3 @@ function cube() {
   quad(4, 5, 6, 7);
   quad(5, 4, 0, 1);
 }
-
-// function ears1() {
-//   instanceMatrix = mult(modelViewMatrix, translate(0, 2.2, -0.8));
-//   instanceMatrix = mult(
-//     instanceMatrix,
-//     scale4(ear1Width * 0.3, ear1Height * 0.1, ear1Height * 0.4)
-//   );
-//   gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
-//   for (var i = 0; i < 6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4 * i, 4);
-// }
-
-// function ears2() {
-//   instanceMatrix = mult(modelViewMatrix, translate(1.3, -2.9, 0.0));
-//   instanceMatrix = mult(
-//     instanceMatrix,
-//     scale4(ear2Width * 0.3, ear2Height * 0.1, ear2Height * 0.4)
-//   );
-//   gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
-//   for (var i = 0; i < 6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4 * i, 4);
-// }

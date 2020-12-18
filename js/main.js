@@ -68,6 +68,45 @@ function initNodes(Id) {
       figure[tailId] = createNode(m, tail, leftUpperArmId, null);
       break;
 
+    //legs
+    case leftUpperLegId:
+      m = translate((torsoWidth + upperLegWidth) * 0.5, 0.1 * torsoHeight, 0.0);
+      m = mult(m, rotate(theta[leftUpperLegId], 1, 0, 0));
+      figure[leftUpperLegId] = createNode(
+        m,
+        leftUpperLeg,
+        rightUpperLegId,
+        leftLowerLegId
+      );
+      break;
+
+    case leftLowerLegId:
+      m = translate(0.0, upperLegHeight, 0.0);
+      m = mult(m, rotate(theta[leftLowerLegId], 1, 0, 0));
+      figure[leftLowerLegId] = createNode(m, leftLowerLeg, null, null);
+      break;
+    case rightUpperLegId:
+      m = translate(
+        -(torsoWidth + upperLegWidth) * 0.5,
+        0.1 * torsoHeight,
+        0.0
+      );
+      m = mult(m, rotate(theta[rightUpperLegId], 1, 0, 0));
+      figure[rightUpperLegId] = createNode(
+        m,
+        rightUpperLeg,
+        null,
+        rightLowerLegId
+      );
+      break;
+
+    case rightLowerLegId:
+      m = translate(0.0, upperLegHeight, 0.0);
+      m = mult(m, rotate(theta[rightLowerLegId], 1, 0, 0));
+      figure[rightLowerLegId] = createNode(m, rightLowerLeg, null, null);
+      break;
+
+    //arms
     case leftUpperArmId:
       m = translate((torsoWidth + upperArmWidth) * 0.5, 0.8 * torsoHeight, 0.0);
       m = mult(m, rotate(theta[leftUpperArmId], 1, 0, 0));
@@ -77,6 +116,11 @@ function initNodes(Id) {
         rightUpperArmId,
         leftLowerArmId
       );
+      break;
+    case leftLowerArmId:
+      m = translate(0.0, upperArmHeight, 0.0);
+      m = mult(m, rotate(theta[leftLowerArmId], 1, 0, 0));
+      figure[leftLowerArmId] = createNode(m, leftLowerArm, null, null);
       break;
 
     case rightUpperArmId:
@@ -94,55 +138,12 @@ function initNodes(Id) {
       );
       break;
 
-    case leftUpperLegId:
-      m = translate((torsoWidth + upperLegWidth) * 0.5, 0.1 * torsoHeight, 0.0);
-      m = mult(m, rotate(theta[leftUpperLegId], 1, 0, 0));
-      figure[leftUpperLegId] = createNode(
-        m,
-        leftUpperLeg,
-        rightUpperLegId,
-        leftLowerLegId
-      );
-      break;
-
-    case rightUpperLegId:
-      m = translate(
-        -(torsoWidth + upperLegWidth) * 0.5,
-        0.1 * torsoHeight,
-        0.0
-      );
-      m = mult(m, rotate(theta[rightUpperLegId], 1, 0, 0));
-      figure[rightUpperLegId] = createNode(
-        m,
-        rightUpperLeg,
-        null,
-        rightLowerLegId
-      );
-      break;
-
-    case leftLowerArmId:
-      m = translate(0.0, upperArmHeight, 0.0);
-      m = mult(m, rotate(theta[leftLowerArmId], 1, 0, 0));
-      figure[leftLowerArmId] = createNode(m, leftLowerArm, null, null);
-      break;
-
     case rightLowerArmId:
       m = translate(0.0, upperArmHeight, 0.0);
       m = mult(m, rotate(theta[rightLowerArmId], 1, 0, 0));
       figure[rightLowerArmId] = createNode(m, rightLowerArm, null, null);
       break;
 
-    case leftLowerLegId:
-      m = translate(0.0, upperLegHeight, 0.0);
-      m = mult(m, rotate(theta[leftLowerLegId], 1, 0, 0));
-      figure[leftLowerLegId] = createNode(m, leftLowerLeg, null, null);
-      break;
-
-    case rightLowerLegId:
-      m = translate(0.0, upperLegHeight, 0.0);
-      m = mult(m, rotate(theta[rightLowerLegId], 1, 0, 0));
-      figure[rightLowerLegId] = createNode(m, rightLowerLeg, null, null);
-      break;
     case baseId:
       m = translate(1, -2.15, 2);
       m = mult(m, rotate(theta[baseId], 1, 0, 0));
@@ -350,7 +351,16 @@ window.onload = function init() {
 
   modelViewMatrixLoc = gl.getUniformLocation(program, "modelViewMatrix");
 
-  cube();
+  colorCube();
+
+  var nBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, nBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW);
+
+  var normalLoc = gl.getAttribLocation(program, "aNormal");
+  gl.vertexAttribPointer(normalLoc, 3, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(normalLoc);
+
   var vBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
@@ -362,6 +372,10 @@ window.onload = function init() {
   var tBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, tBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoordsArray), gl.STATIC_DRAW);
+
+  var ambientProduct = mult(lightAmbient, materialAmbient);
+  var diffuseProduct = mult(lightDiffuse, materialDiffuse);
+  var specularProduct = mult(lightSpecular, materialSpecular);
 
   /* BUFFER FOR TEXTURES */
   var texCoordLoc = gl.getAttribLocation(program, "aTexCoord");
@@ -376,17 +390,37 @@ window.onload = function init() {
     alpha -= 1.5;
     console.log(alpha);
   };
+
+  gl.uniform4fv(
+    gl.getUniformLocation(program, "uAmbientProduct"),
+    ambientProduct
+  );
+  gl.uniform4fv(
+    gl.getUniformLocation(program, "uDiffuseProduct"),
+    diffuseProduct
+  );
+  gl.uniform4fv(
+    gl.getUniformLocation(program, "uSpecularProduct"),
+    specularProduct
+  );
+  gl.uniform4fv(
+    gl.getUniformLocation(program, "uLightPosition"),
+    lightPosition
+  );
+
+  gl.uniform1f(gl.getUniformLocation(program, "uShininess"), materialShininess);
+
   for (i = 0; i < numNodes; i++) initNodes(i);
   render();
 };
 
 var render = function () {
-  //   if (useAnimation) {
-  //     if (moveinXaxis <= 4.5) {
-  //       animate();
-  //       moveinXaxis += 0.15;
-  //     }
-  //   }
+  if (useAnimation) {
+    if (moveinXaxis <= 7.0) {
+      animate();
+      moveinXaxis += 0.07;
+    }
+  }
 
   for (i = 0; i < numNodes; i++) initNodes(i);
   eye = vec3(
