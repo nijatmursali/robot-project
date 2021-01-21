@@ -1,3 +1,4 @@
+//adding the elements of the object like nodes and connecting them like child parent
 function initNodes(Id) {
   var m = mat4();
 
@@ -146,6 +147,8 @@ function head() {
 }
 
 function leftUpperArm() {
+  gl.uniform1i(gl.getUniformLocation(program, "bodyFlag"), true);
+  gl.uniform1i(gl.getUniformLocation(program, "headFlag"), false);
   instanceMatrix = mult(
     modelViewMatrix,
     translate(0.7, 0.5 * upperArmHeight, 0)
@@ -159,6 +162,8 @@ function leftUpperArm() {
 }
 
 function leftLowerArm() {
+  gl.uniform1i(gl.getUniformLocation(program, "bodyFlag"), true);
+  gl.uniform1i(gl.getUniformLocation(program, "headFlag"), false);
   instanceMatrix = mult(
     modelViewMatrix,
     translate(0.7, 0.5 * lowerArmHeight, 0.0)
@@ -172,6 +177,8 @@ function leftLowerArm() {
 }
 
 function rightUpperArm() {
+  gl.uniform1i(gl.getUniformLocation(program, "bodyFlag"), true);
+  gl.uniform1i(gl.getUniformLocation(program, "headFlag"), false);
   instanceMatrix = mult(
     modelViewMatrix,
     translate(-0.7, 0.5 * upperArmHeight, 0.0)
@@ -185,6 +192,8 @@ function rightUpperArm() {
 }
 
 function rightLowerArm() {
+  gl.uniform1i(gl.getUniformLocation(program, "bodyFlag"), true);
+  gl.uniform1i(gl.getUniformLocation(program, "headFlag"), false);
   instanceMatrix = mult(
     modelViewMatrix,
     translate(-0.7, 0.5 * lowerArmHeight, 0.0)
@@ -198,6 +207,8 @@ function rightLowerArm() {
 }
 
 function leftUpperLeg() {
+  gl.uniform1i(gl.getUniformLocation(program, "bodyFlag"), true);
+  gl.uniform1i(gl.getUniformLocation(program, "headFlag"), false);
   instanceMatrix = mult(
     modelViewMatrix,
     translate(0.7, 0.5 * upperLegHeight, 0.0)
@@ -211,6 +222,8 @@ function leftUpperLeg() {
 }
 
 function leftLowerLeg() {
+  gl.uniform1i(gl.getUniformLocation(program, "bodyFlag"), true);
+  gl.uniform1i(gl.getUniformLocation(program, "headFlag"), false);
   instanceMatrix = mult(
     modelViewMatrix,
     translate(0.7, 0.5 * lowerLegHeight, 0.0)
@@ -224,6 +237,8 @@ function leftLowerLeg() {
 }
 
 function rightUpperLeg() {
+  gl.uniform1i(gl.getUniformLocation(program, "bodyFlag"), true);
+  gl.uniform1i(gl.getUniformLocation(program, "headFlag"), false);
   instanceMatrix = mult(
     modelViewMatrix,
     translate(-0.7, 0.5 * upperLegHeight, 0.0)
@@ -237,6 +252,8 @@ function rightUpperLeg() {
 }
 
 function rightLowerLeg() {
+  gl.uniform1i(gl.getUniformLocation(program, "bodyFlag"), true);
+  gl.uniform1i(gl.getUniformLocation(program, "headFlag"), false);
   instanceMatrix = mult(
     modelViewMatrix,
     translate(-0.7, 0.5 * lowerLegHeight, 0.0)

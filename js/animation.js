@@ -1,6 +1,7 @@
-var walkSeq;
-function walk() {
-  walkSeq = 0;
+var walkorNot;
+//check if 
+function animation() {
+  walkorNot = 0;
   theta[torsoId] = 70;
   initNodes(torsoId);
   theta[leftUpperArmId] = 160;
@@ -12,11 +13,11 @@ function walk() {
   theta[rightUpperLegId] = -170;
   initNodes(rightUpperLegId);
   setInterval(function () {
-    walkLoop();
+    walkCycle();
   }, 150);
 
-  function walkLoop() {
-    if (theta[leftUpperArmId] >= 100 && walkSeq == 0) {
+  function walkCycle() {
+    if (theta[leftUpperArmId] >= 100 && walkorNot == 0) {
       theta[leftUpperArmId] -= 10;
       initNodes(leftUpperArmId);
       theta[leftUpperLegId] += 10;
@@ -32,11 +33,11 @@ function walk() {
         initNodes(rightLowerLegId);
       }
       if (theta[leftUpperArmId] == 130) {
-        walkSeq = 1;
+        walkorNot = 1;
       }
     }
 
-    if (theta[leftUpperArmId] <= 200 && walkSeq == 1) {
+    if (theta[leftUpperArmId] <= 200 && walkorNot == 1) {
       theta[leftUpperArmId] += 10;
       initNodes(leftUpperArmId);
       theta[leftUpperLegId] -= 10;
@@ -52,7 +53,7 @@ function walk() {
         initNodes(rightLowerLegId);
       }
       if (theta[leftUpperArmId] == 200) {
-        walkSeq = 0;
+        walkorNot = 0;
       }
     }
   }
